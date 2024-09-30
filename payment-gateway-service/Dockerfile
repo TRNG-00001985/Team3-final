@@ -6,7 +6,7 @@ WORKDIR /home/app
 RUN mvn clean package -DskipTests
 
 # Runtime stage
-FROM openjdk:17
+FROM openjdk:17.0.1-jdk-slim
 COPY --from=build /home/app/target/*.jar payment-gateway-service.jar
 EXPOSE 8089
 ENTRYPOINT ["java", "-jar", "/payment-gateway-service.jar"]
