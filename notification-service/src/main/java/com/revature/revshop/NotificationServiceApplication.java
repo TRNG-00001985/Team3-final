@@ -12,12 +12,35 @@ import com.revature.revshop.event.OrderEvent;
 @SpringBootApplication
 public class NotificationServiceApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(NotificationServiceApplication.class, args);
-	}
+	 @Value("${spring.kafka.bootstrap-servers}")
+        private String bootstrapServers;
 
-	@Autowired
-	private JavaMailSender mailSender;
+
+
+    public static void main(String[] args) {
+        SpringApplication.run(NotificationServiceApplication.class, args);
+    }
+
+    @Autowired
+    private JavaMailSender mailSender;
+
+    @Bean
+    public ConsumerFactory<String, OrderEvent> consumerFactory() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "notificationId");
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, OrderEventDeserializer.class);
+        return new DefaultKafkaConsumerFactory<>(props);
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, OrderEvent> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, OrderEvent> factory = 
+            new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory());
+        return factory;
+    }
 
 	// Method to send email
 	public void sendEmail(String to, String subject, String body) {
