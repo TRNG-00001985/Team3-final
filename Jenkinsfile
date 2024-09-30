@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_COMPOSE_VERSION = '1.29.2'
-        GIT_REPO = https://github.com/TRNG-00001985/Team3-final.git'
+        GIT_REPO = 'https://github.com/TRNG-00001985/Team3-final.git'
         DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials')
         RDS_USERNAME = credentials('RDS_USERNAME')
         DB_PASSWORD = credentials('DB_PASSWORD')
