@@ -6,7 +6,7 @@ WORKDIR /home/app
 RUN mvn clean package -DskipTests
 
 # Runtime stage
-FROM openjdk:17
+FROM openjdk:17.0.1-jdk-slim
 COPY --from=build /home/app/target/*.jar product-service.jar
 EXPOSE 8081
 ENTRYPOINT ["java", "-jar", "/product-service.jar"]
