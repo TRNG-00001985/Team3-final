@@ -28,7 +28,7 @@ pipeline {
                     for (service in services) {
                         dir(service.trim()) {
                             def serviceName = service.trim().replaceAll('./', '')
-                            sh "docker build -t ${serviceName}:${BUILD_NUMBER} ."
+                            sh "docker build -t ${DOCKER_HUB_USERNAME}/${serviceName}:${BUILD_NUMBER} ."
                         }
                     }
                 }
@@ -44,7 +44,6 @@ pipeline {
                             
                         for (service in services) {
                             def serviceName = service.trim().replaceAll('./', '')
-                            sh "docker tag ${serviceName}:${BUILD_NUMBER} ${DOCKER_HUB_USERNAME}/${serviceName}:${BUILD_NUMBER}"
                             sh "docker push ${DOCKER_HUB_USERNAME}/${serviceName}:${BUILD_NUMBER}"
                         }
                     }
