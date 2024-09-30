@@ -6,7 +6,7 @@ WORKDIR /home/app
 RUN mvn clean package -DskipTests
 
 # Runtime stage
-FROM openjdk:17
+FROM openjdk:17.0.1-jdk-slim
 COPY --from=build /home/app/target/*.jar notification-service.jar
 EXPOSE 8084
 ENTRYPOINT ["java", "-jar", "/notification-service.jar"]
