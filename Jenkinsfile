@@ -24,6 +24,7 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 script {
+                     withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
                         def services = sh(script: "find . -maxdepth 1 -type d -name '*-service' -not -name '*@tmp' -not -name 'prometheus' -not -name '.git' -not -name 'grafana' -not -name '.'", returnStdout: true).trim().split('\n')
                     for (service in services) {
                         dir(service.trim()) {
@@ -31,6 +32,7 @@ pipeline {
                             sh "docker build -t ${DOCKER_HUB_USERNAME}/${serviceName}:${BUILD_NUMBER} ."
                         }
                     }
+                     }
                 }
             }
         }
