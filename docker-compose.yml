@@ -92,7 +92,7 @@ services:
   user-service:
     image: majaaz/user-service:latest
     build:
-      context: ./user-service
+      context: ./auth0demo
       dockerfile: Dockerfile
     ports:
       - 80:80
