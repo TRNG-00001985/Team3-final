@@ -38,7 +38,8 @@ services:
     ports:
       - 8761:8761
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_ZIPKIN_ENABLED=true
+      - management.zipkin.tracing.endpoint=http://zipkin:9411/api/v2/spans
 
   apigateway-service:
     image: majaaz/apigateway-service:latest
@@ -48,7 +49,8 @@ services:
     ports:
       - 9000:9000
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_ZIPKIN_ENABLED=true
+      - management.zipkin.tracing.endpoint=http://zipkin:9411/api/v2/spans
     depends_on:
       - discovery-service
 
@@ -60,8 +62,12 @@ services:
     ports:
       - 8082:8082
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_ZIPKIN_ENABLED=true
+      - management.zipkin.tracing.endpoint=http://zipkin:9411/api/v2/spans
       - spring.kafka.bootstrap-servers=broker:29092
+      - spring.datasource.url=jdbc:mysql://${DB_URL}:3306/orders
+      - spring.datasource.username=${RDS_USERNAME}
+      - spring.datasource.password=${DB_PASSWORD}
     depends_on:
       - discovery-service
       - apigateway-service
@@ -74,7 +80,11 @@ services:
     ports:
       - 8081:8081
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_ZIPKIN_ENABLED=true
+      - management.zipkin.tracing.endpoint=http://zipkin:9411/api/v2/spans
+      - spring.datasource.url=jdbc:mysql://${DB_URL}:3306/product
+      - spring.datasource.username=${RDS_USERNAME}
+      - spring.datasource.password=${DB_PASSWORD}
     depends_on:
       - discovery-service
       - apigateway-service
@@ -87,7 +97,8 @@ services:
     ports:
       - 80:80
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_ZIPKIN_ENABLED=true
+      - management.zipkin.tracing.endpoint=http://zipkin:9411/api/v2/spans
     depends_on:
       - discovery-service
       - apigateway-service
@@ -100,7 +111,11 @@ services:
     ports:
       - 8086:8086
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_ZIPKIN_ENABLED=true
+      - management.zipkin.tracing.endpoint=http://zipkin:9411/api/v2/spans
+      - spring.datasource.url=jdbc:mysql://${DB_URL}:3306/cart
+      - spring.datasource.username=${RDS_USERNAME}
+      - spring.datasource.password=${DB_PASSWORD}
     depends_on:
       - discovery-service
       - apigateway-service
@@ -113,7 +128,11 @@ services:
     ports:
       - 8089:8089
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_ZIPKIN_ENABLED=true
+      - management.zipkin.tracing.endpoint=http://zipkin:9411/api/v2/spans
+      - spring.datasource.url=jdbc:mysql://${DB_URL}:3306/payment
+      - spring.datasource.username=${RDS_USERNAME}
+      - spring.datasource.password=${DB_PASSWORD}
     depends_on:
       - discovery-service
       - apigateway-service
@@ -126,7 +145,11 @@ services:
     ports:
       - 8083:8083
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_ZIPKIN_ENABLED=true
+      - management.zipkin.tracing.endpoint=http://zipkin:9411/api/v2/spans
+      - spring.datasource.url=jdbc:mysql://${DB_URL}:3306/inventory
+      - spring.datasource.username=${RDS_USERNAME}
+      - spring.datasource.password=${DB_PASSWORD}
     depends_on:
       - discovery-service
       - apigateway-service
@@ -139,7 +162,8 @@ services:
     ports:
       - 8085:8085
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_ZIPKIN_ENABLED=true
+      - management.zipkin.tracing.endpoint=http://zipkin:9411/api/v2/spans
       - spring.kafka.bootstrap-servers=broker:29092
     depends_on:
       - discovery-service
