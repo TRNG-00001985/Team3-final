@@ -9,6 +9,9 @@ pipeline {
         DB_PASSWORD = credentials('DB_PASSWORD')
         DB_URL = credentials('DB_URL')
         SMTP_CREDENTIALS = credentials('SMTP')
+        RZP_KEY = credentials('RZP_KEY')
+        RZP_SECRET = credentials('RZP_SECRET')
+            
     }
 
     stages {
